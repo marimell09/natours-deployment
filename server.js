@@ -51,3 +51,11 @@ process.on('unhandledRejection', err => {
 });
 
 //console.log(x);
+
+//Heroku sends the SIGTERM to shut down the server every 24 hours
+process.on('SIGTERM', () => {
+  console.log('SIGTERM RECEIVED! Shutting down gracefully...');
+  server.close(() => {
+    console.log('Process terminated!');
+  });
+});
