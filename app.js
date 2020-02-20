@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -29,6 +30,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
 
 // 1) GLOBAL MIDDLEWARES
+
+//Implement cors
+app.use(cors());
+//Access-Control-Allow-Origin *
+//api.natours.com, front-end (in different origin url) natours.com
+// app.use(
+//   cors({
+//     origin: 'https://www.natours.com'
+//   })
+// );
+
+//pre-flight phase for non-simple requests
+app.options('*', cors());
+//Options example for specific route
+// app.options('/api/v1/tours/:id, cors());
 
 //Set security HTTP headers
 app.use(helmet());
